@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Image, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import Task1 from 'components/Task1/Task1';
 import React from 'react';
 import './App.css';
 
@@ -26,7 +27,7 @@ function App() {
 
             <TabPanels>
               <TabPanel>
-                <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>
+                <Task1 />
               </TabPanel>
               <TabPanel>
                 <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
