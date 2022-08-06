@@ -1,0 +1,3 @@
+[submodule "bpho-wasm"]
+	path = bpho-wasm
+	url = https://github.com/KimboBPhO/bpho-wasm
