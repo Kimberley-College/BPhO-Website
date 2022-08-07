@@ -12,10 +12,7 @@ const data = [
   {x: 80, y: 196.5}
 ];
 
-const Task1 = () => {
-  import('wasm').then(({ rk4 }) => {
-    console.log(rk4(0.5));
-  })
+const Task2 = () => {
   return (
   <>
     <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
@@ -30,4 +27,4 @@ const Task1 = () => {
 )
 }
 
-export default Task1;
+export default Task2;

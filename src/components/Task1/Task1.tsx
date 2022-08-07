@@ -13,9 +13,6 @@ const data = [
 ];
 
 const Task1 = () => {
-  import('wasm').then(({ rk4 }) => {
-    console.log(rk4(0.5));
-  })
   return (
   <>
     <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>

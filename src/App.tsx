@@ -1,9 +1,11 @@
 import { Box, Flex, Heading, Image, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Task1 from 'components/Task1/Task1';
+import Task2 from 'components/Task2/Task2';
+import Task3 from 'components/Task3/Task3';
 import React from 'react';
-import './App.css';
 
 function App() {
+
   return (
     <div className="App">
       <>
@@ -30,10 +32,10 @@ function App() {
                 <Task1 />
               </TabPanel>
               <TabPanel>
-                <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
+                <Task2 />
               </TabPanel>
               <TabPanel>
-                <Heading as="h2" size="lg" fontWeight="bold">Task 3</Heading>
+                <Task3 />
               </TabPanel>
             </TabPanels>
           </Tabs>
