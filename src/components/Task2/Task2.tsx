@@ -18,7 +18,7 @@ const Task1 = () => {
   })
   return (
   <>
-    <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>
+    <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
       <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
