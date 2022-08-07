@@ -17,9 +17,28 @@ const Task3 = () => {
     }
   }, [switchState, humidity])
 
-  const data: { x: number, y: number }[] | null = useMemo(() => {
+  interface Data {
+    p: {
+      x: number;
+      y: number;
+    }[];
+    t: {
+      x: number;
+      y: number;
+    }[];
+    l: {
+      x: number;
+      y: number;
+    }[];
+  }
+
+  const data: Data | null = useMemo(() => {
     if (currentData) {
-      return xValues.map((value, index) => ({ x: value, y: currentData[index] }))
+      const vals: Data = { p: [], t: [], l: [] };
+      xValues.forEach((value, index) => vals.p.push({ x: value, y: currentData[index] }))
+      xValues.forEach((value, index) => vals.t.push({ x: value, y: currentData[index + 111] }))
+      xValues.forEach((value, index) => vals.l.push({ x: value, y: currentData[index + 222] }))
+      return vals;
     }
     return null;
   }, [currentData, xValues])
@@ -57,31 +76,41 @@ const Task3 = () => {
       <option value="euler">Euler</option>
     </Select>
 
-    <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.1}>
-      <SliderMark value={0} {...labelStyles}>0</SliderMark>
-      <SliderMark value={0.1} {...labelStyles}>0.1</SliderMark>
-      <SliderMark value={0.2} {...labelStyles}>0.2</SliderMark>
-      <SliderMark value={0.3} {...labelStyles}>0.3</SliderMark>
-      <SliderMark value={0.4} {...labelStyles}>0.4</SliderMark>
-      <SliderMark value={0.5} {...labelStyles}>0.5</SliderMark>
-      <SliderMark value={0.6} {...labelStyles}>0.6</SliderMark>
-      <SliderMark value={0.7} {...labelStyles}>0.7</SliderMark>
-      <SliderMark value={0.8} {...labelStyles}>0.8</SliderMark>
-      <SliderMark value={0.9} {...labelStyles}>0.9</SliderMark>
-      <SliderMark value={1} {...labelStyles}>1.0</SliderMark>
+    <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01}>
+      {new Array(11).fill(0).map((_, i) => (
+        <SliderMark value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
+      ))}
       <SliderTrack>
         <SliderFilledTrack />
       </SliderTrack>
       <SliderThumb />
     </Slider>
 
+  <Flex flexFlow="row wrap">
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
       <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
-      <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[200,300]}/>
+      <YAxis type="number" dataKey="y" name="Pressure" unit="K"/>
       <ZAxis type="number" range={[20]}/>
-      <Scatter name="TvA" data={data} fill="#711368" line/>
+      <Scatter name="TvA" data={data.p} fill="#711368" line />
     </ScatterChart>
+
+    <ScatterChart width={500} height={500}>
+      <CartesianGrid/>
+      <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
+      <YAxis type="number" dataKey="y" name="Temperature" unit="K"/>
+      <ZAxis type="number" range={[20]}/>
+      <Scatter name="TvA" data={data.t} fill="#711368" line />
+    </ScatterChart>
+
+    <ScatterChart width={500} height={500}>
+      <CartesianGrid/>
+      <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
+      <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K"/>
+      <ZAxis type="number" range={[20]}/>
+      <Scatter name="TvA" data={data.l} fill="#711368" line />
+    </ScatterChart>
+  </Flex>
 
   </Flex>
 )
