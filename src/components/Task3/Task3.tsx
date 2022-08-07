@@ -78,7 +78,7 @@ const Task3 = () => {
 
     <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01}>
       {new Array(11).fill(0).map((_, i) => (
-        <SliderMark value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
+        <SliderMark key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
       ))}
       <SliderTrack>
         <SliderFilledTrack />
