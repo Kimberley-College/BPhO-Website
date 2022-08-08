@@ -21,7 +21,7 @@ interface Data {
 }
 
 const labelStyles = {
-  ml: '0.7%',
+  ml: '0',
   mt: '2',
   fontSize: 'sm',
 }

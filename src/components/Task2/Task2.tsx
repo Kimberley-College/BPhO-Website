@@ -8,8 +8,8 @@ function pressure(p0: number, t0: number, h: number) {
 }
 
 const labelStyles = {
+  ml: '-2.5',
   mt: '2',
-  ml: '-0.5',
   fontSize: 'sm',
 }
 
