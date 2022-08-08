@@ -1,6 +1,6 @@
 import { Heading, Select, Spinner, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
-import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
+import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer } from "recharts";
 import { rk4, euler } from 'wasm';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
@@ -67,12 +67,17 @@ const Task3 = () => {
     </>
   )
 
+  const labelStyles = {
+    mt: '2',
+    fontSize: 'sm',
+  }
+
 
   return (
   <Flex flexFlow="column nowrap" align="center" gap={5}>
     <Heading as="h2" size="lg" fontWeight="bold">Task 3</Heading>
 
-      <Flex flexFlow="column nowrap" align="center">
+      <Flex flexFlow="column nowrap" align="center" w="100%">
         <Heading as="h3" size="md" fontWeight="bold">Calculation Method</Heading>
         <Select value={switchState} onChange={(e) => setSwitchState(e.currentTarget.value as 'rk4' | 'euler')} maxWidth="300px" my={3}>
           <option value="rk4">RK4</option>
@@ -80,11 +85,11 @@ const Task3 = () => {
         </Select>
       </Flex>
 
-      <Flex flexFlow="column nowrap" align="center">
+      <Flex flexFlow="column nowrap" align="center" w="100%">
         <Heading as="h3" size="md" fontWeight="bold">Humidity</Heading>
-        <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01} minWidth="300px" width="60%" my={3}>
+        <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01} minWidth="250px" width="60%" my={3}>
           {new Array(11).fill(0).map((_, i) => (
-            <SliderMark key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
+            <SliderMark visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
           ))}
           <SliderTrack>
             <SliderFilledTrack />
@@ -93,30 +98,36 @@ const Task3 = () => {
         </Slider>
       </Flex>
 
-  <Flex flexFlow="row wrap" justify="center">
-    <ScatterChart width={500} height={500}>
-      <CartesianGrid/>
-      <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
-      <YAxis type="number" dataKey="y" name="Pressure" unit="K"/>
-      <ZAxis type="number" range={[20]}/>
-      <Scatter name="TvA" data={data.p} fill="#711368" line />
-    </ScatterChart>
+  <Flex flexFlow="row wrap" justify="center" w="100%" mt={3}>
+    <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
+      <ScatterChart>
+        <CartesianGrid/>
+        <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
+        <YAxis type="number" dataKey="y" name="Pressure" unit="K"/>
+        <ZAxis type="number" range={[20]}/>
+        <Scatter name="TvA" data={data.p} fill="#711368" line />
+      </ScatterChart>
+    </ResponsiveContainer>
 
-    <ScatterChart width={500} height={500}>
-      <CartesianGrid/>
-      <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
-      <YAxis type="number" dataKey="y" name="Temperature" unit="K"/>
-      <ZAxis type="number" range={[20]}/>
-      <Scatter name="TvA" data={data.t} fill="#711368" line />
-    </ScatterChart>
+    <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
+      <ScatterChart>
+        <CartesianGrid/>
+        <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
+        <YAxis type="number" dataKey="y" name="Temperature" unit="K"/>
+        <ZAxis type="number" range={[20]}/>
+        <Scatter name="TvA" data={data.t} fill="#711368" line />
+      </ScatterChart>
+    </ResponsiveContainer>
 
-    <ScatterChart width={500} height={500}>
-      <CartesianGrid/>
-      <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
-      <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K"/>
-      <ZAxis type="number" range={[20]}/>
-      <Scatter name="TvA" data={data.l} fill="#711368" line />
-    </ScatterChart>
+    <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
+      <ScatterChart>
+        <CartesianGrid/>
+        <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
+        <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K"/>
+        <ZAxis type="number" range={[20]}/>
+        <Scatter name="TvA" data={data.l} fill="#711368" line />
+      </ScatterChart>
+    </ResponsiveContainer>
   </Flex>
 
   </Flex>
