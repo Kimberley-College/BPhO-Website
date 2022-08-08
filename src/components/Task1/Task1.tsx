@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, Flex } from "@chakra-ui/react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
 
 const data = [
@@ -14,7 +14,7 @@ const data = [
 
 const Task1 = () => {
   return (
-  <>
+  <Flex flexFlow="column nowrap" align="center">
     <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
@@ -23,7 +23,7 @@ const Task1 = () => {
       <ZAxis type="number" range={[20]}/>
       <Scatter name="TvA" data={data} fill="#711368" line/>
     </ScatterChart>
-  </>
+  </Flex>
 )
 }
 

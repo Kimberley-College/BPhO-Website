@@ -69,24 +69,31 @@ const Task3 = () => {
 
 
   return (
-  <Flex flexFlow="column nowrap" gap={10}>
+  <Flex flexFlow="column nowrap" align="center" gap={5}>
     <Heading as="h2" size="lg" fontWeight="bold">Task 3</Heading>
-    <Select value={switchState} onChange={(e) => setSwitchState(e.currentTarget.value as 'rk4' | 'euler')}>
-      <option value="rk4">RK4</option>
-      <option value="euler">Euler</option>
-    </Select>
 
-    <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01}>
-      {new Array(11).fill(0).map((_, i) => (
-        <SliderMark key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
-      ))}
-      <SliderTrack>
-        <SliderFilledTrack />
-      </SliderTrack>
-      <SliderThumb />
-    </Slider>
+      <Flex flexFlow="column nowrap" align="center">
+        <Heading as="h3" size="md" fontWeight="bold">Calculation Method</Heading>
+        <Select value={switchState} onChange={(e) => setSwitchState(e.currentTarget.value as 'rk4' | 'euler')} maxWidth="300px" my={3}>
+          <option value="rk4">RK4</option>
+          <option value="euler">Euler</option>
+        </Select>
+      </Flex>
 
-  <Flex flexFlow="row wrap">
+      <Flex flexFlow="column nowrap" align="center">
+        <Heading as="h3" size="md" fontWeight="bold">Humidity</Heading>
+        <Slider aria-label='slider-ex-1' value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01} minWidth="300px" width="60%" my={3}>
+          {new Array(11).fill(0).map((_, i) => (
+            <SliderMark key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
+          ))}
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
+      </Flex>
+
+  <Flex flexFlow="row wrap" justify="center">
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
       <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>

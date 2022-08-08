@@ -1,4 +1,4 @@
-import { Heading, Slider, SliderTrack, SliderThumb, SliderFilledTrack, SliderMark} from "@chakra-ui/react";
+import { Heading, Flex, Slider, SliderTrack, SliderThumb, SliderFilledTrack, SliderMark } from "@chakra-ui/react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
 import { useMemo, useState } from "react";
 
@@ -25,7 +25,7 @@ const Task2 = () => {
 
 
   return (
-  <>
+  <Flex flexFlow="column nowrap" align="center">
     <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
  
     <Slider aria-label='Pressure' value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10}>
@@ -55,7 +55,7 @@ const Task2 = () => {
       <ZAxis type="number" range={[0]}/>
       <Scatter name="TvA" data={currentData} fill="#711368" line/>
     </ScatterChart>
-  </>
+  </Flex>
 )
 }
 
