@@ -1,57 +1,34 @@
 import {
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Flex, Heading, ModalFooter, Button, Text,
+
 } from '@chakra-ui/react';
 import type { UseDisclosureReturn } from '@chakra-ui/react';
+import ModalKit from 'components/Shared/ModalKit';
 
 interface Props {
   disclosure: UseDisclosureReturn;
 }
 
+const markdown = `# Test
+test2
+\`\`\`
+pub fn euler_short(u: f32) -> Vec<[f32; 3]> {
+  let es = |t: f32| 6.1121 *  ((18.678 - t / 234.5) * (t / (t + 257.14))).exp();
+  let dp = |p: f32, ues: f32, tk: f32| -34.171 * (p - 0.37776 * ues) / tk;
+  let l = |p: f32, ues: f32, tk: f32| 9.7734 * (tk + 5420.3 * ues / (p - ues)) / (tk * tk + 8400955.5 * ues / (p - ues)) * tk;
+  let next = |u: f32, x: [f32; 3]| [x[0] + 0.01 * dp(x[0], u * es(x[1]), x[1] + 273.15), x[1] - 0.01 * x[2], l(x[0], u * es(x[1]), x[1] + 273.15)];
+  let mut soln = vec![[1013.25, 15.0, l(1013.25, u * 17.051727, 288.15)]];
+  for _ in 1..1101 { soln.push(next(u, *soln.last().unwrap())); }
+  soln
+}
+\`\`\`
+`;
+
 const Task2Modal = ({ disclosure }: Props) => (
-  <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose}>
-    <ModalOverlay />
-    <ModalContent>
-      <ModalHeader>Task 2 Explanation</ModalHeader>
-      <ModalCloseButton />
-      <ModalBody>
-        <Flex flexFlow="column nowrap" align="center" gap={5}>
-          <Heading as="h3" size="md" fontWeight="bold">Pressure (KPa)</Heading>
-          <Text>
-            The pressure is the amount of air that is in the atmosphere.
-            The pressure is measured in kilopascals (KPa).
-          </Text>
-          <Text>
-            The pressure is measured at the surface of the Earth.
-            The pressure is measured at the surface of the Earth.
-          </Text>
-          <Text>
-            The pressure is measured at the surface of the Earth.
-            The pressure is measured at the surface of the Earth.
-          </Text>
-
-          <Heading as="h3" size="md" fontWeight="bold">Temperature (K)</Heading>
-          <Text>
-            The temperature is the temperature of the air.
-            The temperature is measured in kelvins (K).
-          </Text>
-          <Text>
-            The temperature is measured at the surface of the Earth.
-            The temperature is measured at the surface of the Earth.
-          </Text>
-          <Text>
-            The temperature is measured at the surface of the Earth.
-            The temperature is measured at the surface of the Earth.
-          </Text>
-        </Flex>
-      </ModalBody>
-
-      <ModalFooter>
-        <Button colorScheme="blue" mr={3} onClick={disclosure.onClose}>
-          Close
-        </Button>
-      </ModalFooter>
-    </ModalContent>
-  </Modal>
+  <ModalKit
+    disclosure={disclosure}
+    title="Task 2 Explanation"
+    markdown={markdown}
+  />
 );
 
 export default Task2Modal;
