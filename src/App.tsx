@@ -6,6 +6,7 @@ import Task1 from 'components/Task1/Task1';
 import Task2 from 'components/Task2/Task2';
 import Task3 from 'components/Task3/Task3';
 import React from 'react';
+import Planets from 'components/Planets/Planets';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Tab>Task 1</Tab>
               <Tab>Task 2</Tab>
               <Tab>Task 3</Tab>
+              <Tab>Planets Comparison</Tab>
             </TabList>
 
             <TabPanels>
@@ -37,6 +39,9 @@ function App() {
               </TabPanel>
               <TabPanel>
                 <Task3 />
+              </TabPanel>
+              <TabPanel>
+                <Planets />
               </TabPanel>
             </TabPanels>
           </Tabs>
