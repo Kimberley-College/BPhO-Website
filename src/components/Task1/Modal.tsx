@@ -8,19 +8,22 @@ interface Props {
   disclosure: UseDisclosureReturn;
 }
 
-const markdown = `# Test
-test2
-\`\`\`
-pub fn euler_short(u: f32) -> Vec<[f32; 3]> {
-  let es = |t: f32| 6.1121 *  ((18.678 - t / 234.5) * (t / (t + 257.14))).exp();
-  let dp = |p: f32, ues: f32, tk: f32| -34.171 * (p - 0.37776 * ues) / tk;
-  let l = |p: f32, ues: f32, tk: f32| 9.7734 * (tk + 5420.3 * ues / (p - ues)) / (tk * tk + 8400955.5 * ues / (p - ues)) * tk;
-  let next = |u: f32, x: [f32; 3]| [x[0] + 0.01 * dp(x[0], u * es(x[1]), x[1] + 273.15), x[1] - 0.01 * x[2], l(x[0], u * es(x[1]), x[1] + 273.15)];
-  let mut soln = vec![[1013.25, 15.0, l(1013.25, u * 17.051727, 288.15)]];
-  for _ in 1..1101 { soln.push(next(u, *soln.last().unwrap())); }
-  soln
-}
-\`\`\`
+const markdown = `
+Task 1 is literally just to plot a graph of Temperature against Altitude based on the
+lapse rate, which is equal to $L = - \\frac{dT}{dh}$.
+
+
+The data, after calculating the temperatures, is:
+| Altitude (km)  | Temperature (K)   |
+|----------------|-------------------|
+| 0              | 228               |
+| 11             | 216.5             |
+| 20             | 216.5             |
+| 32             | 228.5             |
+| 47             | 270.5             |
+| 51             | 270.5             |
+| 71             | 214.5             |
+| 80             | 196.5             |
 `;
 
 const Task1Modal = ({ disclosure }: Props) => (

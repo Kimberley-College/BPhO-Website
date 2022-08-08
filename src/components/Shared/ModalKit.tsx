@@ -5,8 +5,9 @@ import type { UseDisclosureReturn } from '@chakra-ui/react';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 
 import 'katex/dist/katex.min.css';
@@ -19,9 +20,10 @@ interface Props {
 
 const newTheme = {
   code: (props) => {
-    const { children, ...rest } = props;
+    const { children, className, ...rest } = props;
+    const match = /language-(\w+)/.exec(className || '');
     return (
-      <SyntaxHighlighter language="rust" style={materialDark} PreTag="div" {...rest}>
+      <SyntaxHighlighter language={match?.[1] ?? 'rust'} style={atomDark} PreTag="div" {...rest}>
         {String(children).replace(/\n$/, '')}
       </SyntaxHighlighter>
     );
@@ -38,7 +40,7 @@ const ModalKit = ({ disclosure, title, markdown }: Props) => (
         <ReactMarkdown
           components={ChakraUIRenderer(newTheme)}
           skipHtml
-          remarkPlugins={[remarkMath]}
+          remarkPlugins={[remarkMath, remarkGfm]}
           rehypePlugins={[rehypeKatex]}
         >{markdown}
         </ReactMarkdown>
