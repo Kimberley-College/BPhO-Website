@@ -76,12 +76,23 @@ const Task3 = () => {
         </Flex>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
-          <Heading as="h3" size="md" fontWeight="bold">Humidity</Heading>
-          <Slider aria-label="slider-ex-1" value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01} minWidth="250px" width="60%" my={3}>
+          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Humidity</Heading>
+          <Slider aria-label="slider-ex-1" value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.05} minWidth="250px" width="60%" my={3}>
             {new Array(11).fill(0).map((_, i) => (
             // eslint-disable-next-line react/no-array-index-key
               <SliderMark visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
             ))}
+            <SliderMark
+              value={humidity}
+              textAlign="center"
+              bg="brand.kimberley"
+              color="white"
+              mt="-9"
+              ml="-5"
+              w="12"
+            >
+              {humidity}
+            </SliderMark>
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
@@ -94,8 +105,8 @@ const Task3 = () => {
             <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Pressure" unit="K" />
-              <ZAxis type="number" range={[20]} />
+              <YAxis type="number" dataKey="y" name="Pressure" unit="K" domain={[0, 1200]} />
+              <ZAxis type="number" range={[0]} />
               <Scatter name="TvA" data={data.p} fill="#711368" line />
             </ScatterChart>
           </ResponsiveContainer>
@@ -104,8 +115,8 @@ const Task3 = () => {
             <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Temperature" unit="K" />
-              <ZAxis type="number" range={[20]} />
+              <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[-100, 30]} />
+              <ZAxis type="number" range={[0]} />
               <Scatter name="TvA" data={data.t} fill="#711368" line />
             </ScatterChart>
           </ResponsiveContainer>
@@ -114,8 +125,8 @@ const Task3 = () => {
             <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K" />
-              <ZAxis type="number" range={[20]} />
+              <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K" domain={[0, 12]} />
+              <ZAxis type="number" range={[0]} />
               <Scatter name="TvA" data={data.l} fill="#711368" line />
             </ScatterChart>
           </ResponsiveContainer>

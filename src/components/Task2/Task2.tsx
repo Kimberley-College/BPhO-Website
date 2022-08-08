@@ -33,12 +33,23 @@ const Task2 = () => {
         </Flex>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
-          <Heading as="h3" size="md" fontWeight="bold">Pressure (KPa)</Heading>
+          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Pressure (KPa)</Heading>
           <Slider aria-label="Pressure" value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10} minWidth="250px" width="60%" my={3}>
             {new Array(9).fill(0).map((_, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <SliderMark key={i} visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} value={i * 50 + 800} {...labelStyles}>{i * 50 + 800 /* 50 = step size, 800 = min */}</SliderMark>
             ))}
+            <SliderMark
+              value={p}
+              textAlign="center"
+              bg="brand.kimberley"
+              color="white"
+              mt="-9"
+              ml="-5"
+              w="20"
+            >
+              {p} KPa
+            </SliderMark>
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
@@ -47,12 +58,23 @@ const Task2 = () => {
         </Flex>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
-          <Heading as="h3" size="md" fontWeight="bold">Temperature (K)</Heading>
+          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Temperature (K)</Heading>
           <Slider aria-label="Temperature" value={t} onChange={(val) => tSet(val)} min={200} max={300} step={5} minWidth="250px" width="60%" my={3}>
             {new Array(11).fill(0).map((_, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <SliderMark key={i} visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} value={i * 10 + 200} {...labelStyles}>{i * 10 + 200 /* 10 = step size, 200 = min */}</SliderMark>
             ))}
+            <SliderMark
+              value={t}
+              textAlign="center"
+              bg="brand.kimberley"
+              color="white"
+              mt="-9"
+              ml="-5"
+              w="12"
+            >
+              {t}K
+            </SliderMark>
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
