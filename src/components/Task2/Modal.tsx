@@ -21,6 +21,8 @@ pub fn euler_short(u: f32) -> Vec<[f32; 3]> {
   soln
 }
 \`\`\`
+
+$x^2$
 `;
 
 const Task2Modal = ({ disclosure }: Props) => (

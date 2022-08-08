@@ -6,6 +6,10 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+
+import 'katex/dist/katex.min.css';
 
 interface Props {
   disclosure: UseDisclosureReturn;
@@ -31,7 +35,13 @@ const ModalKit = ({ disclosure, title, markdown }: Props) => (
       <ModalHeader>{title}</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
-        <ReactMarkdown components={ChakraUIRenderer(newTheme)} skipHtml>{markdown}</ReactMarkdown>
+        <ReactMarkdown
+          components={ChakraUIRenderer(newTheme)}
+          skipHtml
+          remarkPlugins={[remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+        >{markdown}
+        </ReactMarkdown>
       </ModalBody>
 
       <ModalFooter>
