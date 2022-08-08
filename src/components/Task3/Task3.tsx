@@ -93,7 +93,7 @@ const Task3 = () => {
         </Slider>
       </Flex>
 
-  <Flex flexFlow="row wrap" justify="center" w="100%" mt={3}>
+  <Flex flexFlow="row wrap" justify="center" w="100%" maxW="1500px" mt={3}>
     <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
       <ScatterChart>
         <CartesianGrid/>
