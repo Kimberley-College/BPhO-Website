@@ -1,4 +1,4 @@
-import { Heading, Select, Spinner, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex, Stack } from "@chakra-ui/react";
+import { Heading, Select, Spinner, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
 import { rk4, euler } from 'wasm';

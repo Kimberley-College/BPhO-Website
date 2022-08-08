@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@chakra-ui/icons": "^2.0.6",
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
@@ -66,11 +67,11 @@
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.0.2",
     "terser-webpack-plugin": "^5.2.5",
+    "wasm": "file:./bpho-wasm/build",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",
     "webpack-manifest-plugin": "^4.0.2",
-    "workbox-webpack-plugin": "^6.4.1",
-    "wasm": "file:./bpho-wasm/build"
+    "workbox-webpack-plugin": "^6.4.1"
   },
   "browserslist": {
     "production": [
