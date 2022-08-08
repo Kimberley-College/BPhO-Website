@@ -68,6 +68,7 @@ const Task3 = () => {
   )
 
   const labelStyles = {
+    ml: '0.7%',
     mt: '2',
     fontSize: 'sm',
   }
