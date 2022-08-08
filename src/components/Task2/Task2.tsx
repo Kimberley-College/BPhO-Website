@@ -1,27 +1,59 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, Slider, SliderTrack, SliderThumb, SliderFilledTrack, SliderMark} from "@chakra-ui/react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
+import { useMemo, useState } from "react";
 
-const data = [
-  {x: 0, y: 288},
-  {x: 11, y: 216.5},
-  {x: 20, y: 216.5},
-  {x: 32, y: 228.5},
-  {x: 47, y: 270.5},
-  {x: 51, y: 270.5},
-  {x: 71, y: 214.5},
-  {x: 80, y: 196.5}
-];
+const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
+function pressure(p0: number, t0: number, h: number) {
+  return p0 * Math.exp(-34.17 * h / t0)
+}
+
+const labelStyles = {
+  mt: '2',
+  ml: '-0.5',
+  fontSize: 'sm',
+}
 
 const Task2 = () => {
+  const [p, pSet] = useState<number>(1013.25);
+  const [t, tSet] = useState<number>(288);
+
+  const currentData: {x: number, y: number}[] = useMemo(() => {
+    const data: {x: number, y: number}[]  = [];
+    xValues.map((value) => data.push({x: value, y: pressure(p, t, value)}));
+    return data;
+  }, [p, t])
+
+
   return (
   <>
     <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
+ 
+    <Slider aria-label='Pressure' value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10}>
+      {new Array(9).fill(0).map((_, i) => (
+        <SliderMark key={i} value={i * 50 + 800} {...labelStyles}>{i * 50 + 800}</SliderMark>
+      ))}
+      <SliderTrack>
+        <SliderFilledTrack />
+      </SliderTrack>
+      <SliderThumb />
+    </Slider>
+
+    <Slider aria-label='Temperature' value={t} onChange={(val) => tSet(val)} min={200} max={300} step={5}>
+      {new Array(11).fill(0).map((_, i) => (
+        <SliderMark key={i} value={i * 10 + 200} {...labelStyles}>{i * 10 + 200}</SliderMark>
+      ))}
+      <SliderTrack>
+        <SliderFilledTrack />
+      </SliderTrack>
+      <SliderThumb />
+    </Slider>
+
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
       <XAxis type="number" dataKey="x" name="Altitude" unit="km"/>
-      <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[200,300]}/>
-      <ZAxis type="number" range={[20]}/>
-      <Scatter name="TvA" data={data} fill="#711368" line/>
+      <YAxis type="number" dataKey="y" name="Pressure" unit="KPa" domain={[0,1200]}/>
+      <ZAxis type="number" range={[0]}/>
+      <Scatter name="TvA" data={currentData} fill="#711368" line/>
     </ScatterChart>
   </>
 )

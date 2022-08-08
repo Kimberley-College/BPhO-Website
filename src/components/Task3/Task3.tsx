@@ -1,36 +1,42 @@
 import { Heading, Select, Spinner, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis } from "recharts";
 import { rk4, euler } from 'wasm';
 
+const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
+
+interface Data {
+  p: {
+    x: number;
+    y: number;
+  }[];
+  t: {
+    x: number;
+    y: number;
+  }[];
+  l: {
+    x: number;
+    y: number;
+  }[];
+}
+
+const labelStyles = {
+  mt: '2',
+  ml: '-0.5',
+  fontSize: 'sm',
+}
+
 const Task3 = () => {
-  const [currentData, setCurrentData] = useState<Float32Array | null>(null);
+  //const [currentData, setCurrentData] = useState<Float32Array | null>(null);
   const [switchState, setSwitchState] = useState<'rk4' | 'euler'>('rk4');
   const [humidity, setHumidity] = useState<number>(0.5);
-  const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
 
-  useEffect(() => {
+  const currentData: Float32Array = useMemo(() => {
     if (switchState === 'rk4') {
-      setCurrentData(rk4(humidity));
-    } else {
-      setCurrentData(euler(humidity))
+      return rk4(humidity) 
     }
+    return euler(humidity)
   }, [switchState, humidity])
-
-  interface Data {
-    p: {
-      x: number;
-      y: number;
-    }[];
-    t: {
-      x: number;
-      y: number;
-    }[];
-    l: {
-      x: number;
-      y: number;
-    }[];
-  }
 
   const data: Data | null = useMemo(() => {
     if (currentData) {
@@ -41,7 +47,7 @@ const Task3 = () => {
       return vals;
     }
     return null;
-  }, [currentData, xValues])
+  }, [currentData])
 
 
   // setEulerData(euler(0.5)); // Pressure/Temperature/Lapse-rate (each 1101) 0-11km in step sizes of 0.01 -> CHANGED TO EACH 111 IN STEP SIZES OF 0.1
@@ -60,12 +66,6 @@ const Task3 = () => {
       <Spinner size="xl" />
     </>
   )
-
-  const labelStyles = {
-    mt: '2',
-    ml: '-0.5',
-    fontSize: 'sm',
-  }
 
 
   return (
