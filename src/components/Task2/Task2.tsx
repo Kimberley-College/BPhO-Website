@@ -3,9 +3,8 @@ import { Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveCo
 import { useMemo, useState } from "react";
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
-function pressure(p0: number, t0: number, h: number) {
-  return p0 * Math.exp(-34.17 * h / t0)
-}
+
+const pressure = (p0: number, t0: number, h: number) => p0 * Math.exp(-34.17 * h / t0);
 
 const labelStyles = {
   ml: '-2.5',
