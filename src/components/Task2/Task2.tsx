@@ -25,28 +25,34 @@ const Task2 = () => {
 
 
   return (
-  <Flex flexFlow="column nowrap" align="center">
+  <Flex flexFlow="column nowrap" align="center" gap={5}>
     <Heading as="h2" size="lg" fontWeight="bold">Task 2</Heading>
- 
-    <Slider aria-label='Pressure' value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10}>
-      {new Array(9).fill(0).map((_, i) => (
-        <SliderMark key={i} value={i * 50 + 800} {...labelStyles}>{i * 50 + 800}</SliderMark>
-      ))}
-      <SliderTrack>
-        <SliderFilledTrack />
-      </SliderTrack>
-      <SliderThumb />
-    </Slider>
+    
+    <Flex flexFlow="column nowrap" align="center" w="100%">
+      <Heading as="h3" size="md" fontWeight="bold">Pressure (KPa)</Heading>
+      <Slider aria-label='Pressure' value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10} minWidth="250px" width="60%" my={3}>
+        {new Array(9).fill(0).map((_, i) => (
+          <SliderMark key={i} value={i * 50 + 800} {...labelStyles}>{i * 50 + 800 /* 50 = step size, 800 = min */}</SliderMark>
+        ))}
+        <SliderTrack>
+          <SliderFilledTrack />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>
+    </Flex>
 
-    <Slider aria-label='Temperature' value={t} onChange={(val) => tSet(val)} min={200} max={300} step={5}>
-      {new Array(11).fill(0).map((_, i) => (
-        <SliderMark key={i} value={i * 10 + 200} {...labelStyles}>{i * 10 + 200}</SliderMark>
-      ))}
-      <SliderTrack>
-        <SliderFilledTrack />
-      </SliderTrack>
-      <SliderThumb />
-    </Slider>
+    <Flex flexFlow="column nowrap" align="center" w="100%">
+      <Heading as="h3" size="md" fontWeight="bold">Temperature (K)</Heading>
+      <Slider aria-label='Temperature' value={t} onChange={(val) => tSet(val)} min={200} max={300} step={5} minWidth="250px" width="60%" my={3}>
+        {new Array(11).fill(0).map((_, i) => (
+          <SliderMark key={i} value={i * 10 + 200} {...labelStyles}>{i * 10 + 200  /* 10 = step size, 200 = min */}</SliderMark>
+        ))}
+        <SliderTrack>
+          <SliderFilledTrack />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>
+    </Flex>
 
     <ScatterChart width={500} height={500}>
       <CartesianGrid/>
