@@ -17,12 +17,7 @@ const Task2 = () => {
   const [p, pSet] = useState<number>(1013.25);
   const [t, tSet] = useState<number>(288);
 
-  const currentData: {x: number, y: number}[] = useMemo(() => {
-    const data: {x: number, y: number}[]  = [];
-    xValues.map((value) => data.push({x: value, y: pressure(p, t, value)}));
-    return data;
-  }, [p, t])
-
+  const currentData: { x: number, y: number }[] = useMemo(() => xValues.map((value) => ({ x: value, y: pressure(p, t, value) })), [p, t])
 
   return (
   <Flex flexFlow="column nowrap" align="center" gap={5}>

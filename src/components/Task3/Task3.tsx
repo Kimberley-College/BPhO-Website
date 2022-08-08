@@ -21,8 +21,8 @@ interface Data {
 }
 
 const labelStyles = {
+  ml: '0.7%',
   mt: '2',
-  ml: '-0.5',
   fontSize: 'sm',
 }
 
@@ -66,12 +66,6 @@ const Task3 = () => {
       <Spinner size="xl" />
     </>
   )
-
-  const labelStyles = {
-    ml: '0.7%',
-    mt: '2',
-    fontSize: 'sm',
-  }
 
 
   return (
