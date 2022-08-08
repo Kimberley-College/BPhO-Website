@@ -61,8 +61,8 @@ const Task2 = () => {
         </Flex>
 
         <Box maxW="500px" width="100%">
-          <ResponsiveContainer minWidth="300px" width="80%" aspect={1}>
-            <ScatterChart width={500} height={500}>
+          <ResponsiveContainer minWidth="300px" width="100%" aspect={1}>
+            <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
               <YAxis type="number" dataKey="y" name="Pressure" unit="KPa" domain={[0, 1200]} />

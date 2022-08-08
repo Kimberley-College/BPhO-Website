@@ -1,6 +1,6 @@
-import { Heading, Flex } from '@chakra-ui/react';
+import { Heading, Flex, Box } from '@chakra-ui/react';
 import {
-  Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis,
+  Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer,
 } from 'recharts';
 
 const data = [
@@ -17,13 +17,18 @@ const data = [
 const Task1 = () => (
   <Flex flexFlow="column nowrap" align="center">
     <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>
-    <ScatterChart width={500} height={500}>
-      <CartesianGrid />
-      <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-      <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[200, 300]} />
-      <ZAxis type="number" range={[20]} />
-      <Scatter name="TvA" data={data} fill="#711368" line />
-    </ScatterChart>
+
+    <Box maxW="500px" width="100%">
+      <ResponsiveContainer minWidth="300px" width="100%" aspect={1}>
+        <ScatterChart>
+          <CartesianGrid />
+          <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
+          <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[200, 300]} />
+          <ZAxis type="number" range={[20]} />
+          <Scatter name="TvA" data={data} fill="#711368" line />
+        </ScatterChart>
+      </ResponsiveContainer>
+    </Box>
   </Flex>
 );
 
