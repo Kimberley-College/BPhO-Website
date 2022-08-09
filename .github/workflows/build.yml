@@ -16,6 +16,13 @@ jobs:
     - name: Install wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       
+    - name: Use wasm cache
+      working-directory: ./bpho-wasm
+      uses: actions/cache@v3
+      with:
+        path: './build'
+        key: ${{ runner.os }}-modules-${{ hashFiles('./src/lib.rs') }}
+
     - name: Build wasm
       working-directory: ./bpho-wasm
       run: wasm-pack build --out-dir build/
