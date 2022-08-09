@@ -5,6 +5,7 @@ import {
   Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer,
 } from 'recharts';
 import { useMemo, useState } from 'react';
+import simplify from 'simplify-js';
 import Task2Modal from './Modal';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
@@ -28,7 +29,7 @@ const Task2 = () => {
   const [l, lSet] = useState<number>(0);
   const modalDisc = useDisclosure();
 
-  const currentData: { x: number, y: number }[] = useMemo(() => xValues.map((value) => ({ x: value, y: pressure(p, t, l, value) })), [p, t, l]);
+  const currentData: { x: number, y: number }[] = useMemo(() => simplify(xValues.map((value) => ({ x: value, y: pressure(p, t, l, value) })), 0.01), [p, t, l]);
 
   return (
     <>
@@ -64,7 +65,7 @@ const Task2 = () => {
         <Flex flexFlow="column nowrap" align="center" w="100%">
           <Flex flexFlow="row nowrap" align="center" mb={5}>
             <Heading as="h3" size="md" fontWeight="bold" mr={3}>Pressure (KPa)</Heading>
-            <NumberInput value={p} onChange={(v) => pSet(Number(v))} size="sm" maxW={20}>
+            <NumberInput value={p} onChange={(v) => pSet(Number(v))} size="sm" maxW="100px">
               <NumberInputField />
             </NumberInput>
           </Flex>
