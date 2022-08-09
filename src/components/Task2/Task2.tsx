@@ -17,7 +17,7 @@ const pressure = (p0: number, t0: number, l: number, h: number) => {
 };
 
 const Task2 = () => {
-  const [p, pSet] = useState<number>(1013.25);
+  const [p, pSet] = useState<number>(1013);
   const [t, tSet] = useState<number>(288);
   const [l, lSet] = useState<number>(0);
   const modalDisc = useDisclosure();
