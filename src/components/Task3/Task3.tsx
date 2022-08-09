@@ -1,10 +1,11 @@
 import {
-  Heading, Select, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex, useDisclosure, Button, Checkbox,
+  Heading, Select, Flex, useDisclosure, Button, Checkbox,
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import { rk4, euler } from 'wasm';
 import simplify from 'simplify-js';
 import GraphKit from 'components/Shared/GraphKit';
+import SliderKit from 'components/Shared/SliderKit';
 import Task3Modal from './Modal';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
@@ -31,12 +32,6 @@ interface Data {
     y: number;
   }[];
 }
-
-const labelStyles = {
-  ml: '0',
-  mt: '2',
-  fontSize: 'sm',
-};
 
 const Task3 = () => {
   // const [currentData, setCurrentData] = useState<Float32Array | null>(null);
@@ -80,30 +75,7 @@ const Task3 = () => {
           </Select>
         </Flex>
 
-        <Flex flexFlow="column nowrap" align="center" w="100%">
-          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Humidity</Heading>
-          <Slider aria-label="slider-ex-1" value={humidity} onChange={(val) => setHumidity(val)} max={1} step={0.01} minWidth="250px" width="60%" my={3}>
-            {new Array(11).fill(0).map((_, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-              <SliderMark visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} key={i} value={i * 0.1} {...labelStyles}>{(i * 0.1).toFixed(1)}</SliderMark>
-            ))}
-            <SliderMark
-              value={humidity}
-              textAlign="center"
-              bg="brand.kimberley"
-              color="white"
-              mt="-9"
-              ml="-5"
-              w="12"
-            >
-              {humidity}
-            </SliderMark>
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
-        </Flex>
+        <SliderKit title="Relative Humidity" unit="" domain={[0, 1]} step={0.01} numTicks={11} tickFn={(i) => i * 0.1} value={humidity} onChange={setHumidity} labelLeft={-0.5} tooltipLeft={-8} />
 
         <Flex flexFlow="row wrap" justify="center" w="100%" maxW="1500px" mt={3}>
 
