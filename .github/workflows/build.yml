@@ -1,0 +1,60 @@
+name: Build
+
+on: ['push']
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install wasm-pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      
+    - name: Build wasm
+      working-directory: ./bpho-wasm
+      run: wasm-pack build --out-dir build/
+      
+    - name: Install Node v16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+      
+    - name: Install pnpm
+      run: curl -L https://unpkg.com/@pnpm/self-installer | node
+
+    - name: Use node_modules cache
+      uses: actions/cache@v3
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install deps
+      run: pnpm i
+
+    - name: Use Next.js cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/.next/cache
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Build the code
+      run: pnpm run build
+
+  deploy:
+    needs: build
+    
+    permissions:
+      pages: write
+      id-token: write
+      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.output.page_url }}
+      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
