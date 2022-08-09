@@ -81,7 +81,7 @@ const Task3 = () => {
 
           <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={data.p} showPoints={pointShown} />
 
-          <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={data.t} data2={data.tdew} showPoints={pointShown} />
+          <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={data.t} data2={data.tdew} showPoints={pointShown} legend />
 
           <GraphKit title="Variation of lapse rate with altitude" yLabel="Lapse Rate (K/km)" domain={[0, 12]} data={data.l} showPoints={pointShown} />
 
