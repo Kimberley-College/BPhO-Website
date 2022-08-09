@@ -1,0 +1,73 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo and submodules
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    
+    - name: Install wasm-pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      
+    - name: Use wasm cache
+      uses: actions/cache@v3
+      with:
+        path: './bpho-wasm/build'
+        key: ${{ runner.os }}-modules-${{ hashFiles('./bpho-wasm/src/lib.rs') }}
+
+    - name: Build wasm
+      working-directory: ./bpho-wasm
+      run: wasm-pack build --out-dir build/
+      
+    - name: Install Node v16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+      
+    - name: Install pnpm
+      run: curl -L https://unpkg.com/@pnpm/self-installer | node
+
+    - name: Use node_modules cache
+      uses: actions/cache@v3
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install deps
+      run: pnpm i
+
+    - name: Build the code
+      run: pnpm run build
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    
+    permissions:
+      pages: write
+      id-token: write
+      
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.output.page_url }}
+      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1.0.2
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
