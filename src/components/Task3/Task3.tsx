@@ -1,5 +1,5 @@
 import {
-  Heading, Select, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex, useDisclosure, Button,
+  Heading, Select, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex, useDisclosure, Button, Checkbox,
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import {
@@ -10,6 +10,7 @@ import simplify from 'simplify-js';
 import Task3Modal from './Modal';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
+const animShown = false;
 
 interface Data {
   p: {
@@ -21,6 +22,14 @@ interface Data {
     y: number;
   }[];
   l: {
+    x: number;
+    y: number;
+  }[];
+  tdew: {
+    x: number;
+    y: number;
+  }[];
+  tboil: {
     x: number;
     y: number;
   }[];
@@ -37,29 +46,40 @@ const Task3 = () => {
   const [switchState, setSwitchState] = useState<'rk4' | 'euler'>('rk4');
   const [humidity, setHumidity] = useState<number>(0.5);
   const modalDisc = useDisclosure();
+  const [pointShown, setPointShown] = useState<boolean>(false);
 
   const currentData: Float32Array = useMemo(() => {
-    const now = performance.now();
-    let vals: Float32Array;
     if (switchState === 'rk4') {
-      vals = rk4(humidity);
+      return rk4(humidity);
     }
-    vals = euler(humidity);
-    console.log(performance.now() - now);
-    return vals;
+    return euler(humidity);
   }, [switchState, humidity]);
 
   const data: Data = useMemo(() => {
-    const p = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index] })), 0.01); // Using the Ramer–Douglas–Peucker algorithm to simplify amount of points required
+    const p = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index] })), 0.02); // Using the Ramer–Douglas–Peucker algorithm to simplify amount of points required
     const t = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 111] })), 0.01);
     const l = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 222] })), 0.01);
-    return { p, t, l };
+    const tdew = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 333] })), 0.01);
+    const tboil = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 444] })), 0.01);
+    return {
+      p, t, l, tdew, tboil,
+    };
   }, [currentData]);
+
+  const points = useMemo(() => {
+    if (pointShown) {
+      return [25];
+    }
+    return [0];
+  }, [pointShown]);
 
   return (
     <>
       <Flex flexFlow="column nowrap" align="center">
         <Heading as="h2" size="lg" fontWeight="bold">Task 3</Heading>
+        <Checkbox alignSelf={[null, 'flex-start']} pos="relative" top={[0, 0]} isChecked={pointShown} onChange={(e) => setPointShown(e.target.checked)}>
+          Show Points?
+        </Checkbox>
         <Button alignSelf={[null, 'flex-end']} pos="relative" top={[0, -9]} onClick={modalDisc.onOpen}>Explanation</Button>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
@@ -99,10 +119,10 @@ const Task3 = () => {
           <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
             <ScatterChart>
               <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Pressure" unit="K" domain={[0, 1200]} />
-              <ZAxis type="number" range={[1]} />
-              <Scatter name="TvA" data={data.p} fill="#711368" />
+              <XAxis type="number" dataKey="x" name="Altitude" label={{ value: 'Altitude (km)', position: 'bottom', offset: -10 }} />
+              <YAxis type="number" dataKey="y" name="Pressure" domain={[0, 1200]} />
+              <ZAxis type="number" range={points} />
+              <Scatter name="Pressure" data={data.p} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
             </ScatterChart>
           </ResponsiveContainer>
 
@@ -110,9 +130,10 @@ const Task3 = () => {
             <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[-100, 30]} />
-              <ZAxis type="number" range={[1]} />
-              <Scatter name="TvA" data={data.t} fill="#711368" />
+              <YAxis type="number" dataKey="y" name="Temperature" unit="°C" domain={[-130, 30]} allowDataOverflow />
+              <ZAxis type="number" range={points} />
+              <Scatter name="Dew Point" data={data.tdew} fill="#0096FF" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
+              <Scatter name="Temperature" data={data.t} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
             </ScatterChart>
           </ResponsiveContainer>
 
@@ -120,9 +141,19 @@ const Task3 = () => {
             <ScatterChart>
               <CartesianGrid />
               <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K" domain={[0, 12]} />
-              <ZAxis type="number" range={[1]} />
-              <Scatter name="TvA" data={data.l} fill="#711368" />
+              <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K/km" domain={[0, 12]} />
+              <ZAxis type="number" range={points} />
+              <Scatter name="Lapse Rate" data={data.l} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
+            </ScatterChart>
+          </ResponsiveContainer>
+
+          <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
+            <ScatterChart>
+              <CartesianGrid />
+              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
+              <YAxis type="number" dataKey="y" name="Temperature" unit="°C" domain={[0, 120]} />
+              <ZAxis type="number" range={points} />
+              <Scatter name="Boiling Point" data={data.tboil} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
             </ScatterChart>
           </ResponsiveContainer>
         </Flex>

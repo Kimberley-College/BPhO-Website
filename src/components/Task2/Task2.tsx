@@ -40,7 +40,7 @@ const Task2 = () => {
         </Flex>
 
         <Heading as="h3" size="md" fontWeight="bold" mb={2}>Lapse Rate (K/km)</Heading>
-        <Slider aria-label="Lapse Rate" value={l} onChange={(val) => lSet(val)} min={-10} max={10} step={0.1} minWidth="250px" width="60%" my={3}>
+        <Slider aria-label="Lapse Rate" value={l} focusThumbOnChange={false} onChange={(val) => lSet(val)} min={-10} max={10} step={0.1} minWidth="250px" width="60%" my={3}>
           {new Array(5).fill(0).map((_, i) => (
             // eslint-disable-next-line react/no-array-index-key
             <SliderMark key={5 * i - 10} visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} value={5 * i - 10} {...labelStyles}>{5 * i - 10}</SliderMark>
@@ -64,13 +64,13 @@ const Task2 = () => {
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
           <Flex flexFlow="row nowrap" align="center" mb={5}>
-            <Heading as="h3" size="md" fontWeight="bold" mr={3}>Pressure (KPa)</Heading>
+            <Heading as="h3" size="md" fontWeight="bold" mr={3}>Initial Pressure (KPa)</Heading>
             <NumberInput value={p} onChange={(v) => pSet(Number(v))} size="sm" maxW="100px">
               <NumberInputField />
             </NumberInput>
           </Flex>
 
-          <Slider aria-label="Pressure" value={p} onChange={(val) => pSet(val)} min={800} max={1200} step={10} minWidth="250px" width="60%" my={3}>
+          <Slider aria-label="Pressure" value={p} focusThumbOnChange={false} onChange={(val) => pSet(val)} min={800} max={1200} step={1} minWidth="250px" width="60%" my={3}>
             {new Array(9).fill(0).map((_, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <SliderMark key={i} visibility={i % 2 === 0 ? 'visible' : ['hidden', null, 'visible']} value={i * 50 + 800} {...labelStyles}>{i * 50 + 800 /* 50 = step size, 800 = min */}</SliderMark>
@@ -83,7 +83,7 @@ const Task2 = () => {
         </Flex>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
-          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Temperature (K)</Heading>
+          <Heading as="h3" size="md" fontWeight="bold" mb={7}>Initial Temperature (K)</Heading>
           <Slider aria-label="Temperature" value={t} onChange={(val) => tSet(val)} min={200} max={300} step={1} minWidth="250px" width="60%" my={3}>
             {new Array(11).fill(0).map((_, i) => (
               // eslint-disable-next-line react/no-array-index-key
