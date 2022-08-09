@@ -1,11 +1,9 @@
 import {
-  Heading, Flex, Slider, SliderTrack, SliderThumb, SliderFilledTrack, SliderMark, Button, Box, useDisclosure, NumberInput, NumberInputField,
+  Heading, Flex, Slider, SliderTrack, SliderThumb, SliderFilledTrack, SliderMark, Button, useDisclosure, NumberInput, NumberInputField,
 } from '@chakra-ui/react';
-import {
-  Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer,
-} from 'recharts';
 import { useMemo, useState } from 'react';
 import simplify from 'simplify-js';
+import GraphKit from 'components/Shared/GraphKit';
 import Task2Modal from './Modal';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
@@ -107,17 +105,7 @@ const Task2 = () => {
           </Slider>
         </Flex>
 
-        <Box maxW="500px" width="100%">
-          <ResponsiveContainer minWidth="300px" width="100%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Pressure" unit="KPa" domain={[0, 1200]} />
-              <ZAxis type="number" range={[0]} />
-              <Scatter name="TvA" data={currentData} fill="#711368" line />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </Box>
+        <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={currentData} showPoints={false} />
       </Flex>
 
       <Task2Modal disclosure={modalDisc} />

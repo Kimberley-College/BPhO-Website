@@ -2,16 +2,13 @@ import {
   Heading, Select, Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark, Flex, useDisclosure, Button, Checkbox,
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import {
-  Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer,
-} from 'recharts';
 import { rk4, euler } from 'wasm';
 import simplify from 'simplify-js';
+import GraphKit from 'components/Shared/GraphKit';
 import Task3Modal from './Modal';
 
 const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
-const animShown = false;
-
+const tolerance = 0.02;
 interface Data {
   p: {
     x: number;
@@ -56,22 +53,15 @@ const Task3 = () => {
   }, [switchState, humidity]);
 
   const data: Data = useMemo(() => {
-    const p = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index] })), 0.02); // Using the Ramer–Douglas–Peucker algorithm to simplify amount of points required
-    const t = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 111] })), 0.01);
-    const l = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 222] })), 0.01);
-    const tdew = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 333] })), 0.01);
-    const tboil = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 444] })), 0.01);
+    const p = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index] })), tolerance); // Using the Ramer–Douglas–Peucker algorithm to simplify amount of points required
+    const t = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 111] })), tolerance);
+    const l = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 222] })), tolerance);
+    const tdew = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 333] })), tolerance);
+    const tboil = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 444] })), tolerance);
     return {
       p, t, l, tdew, tboil,
     };
   }, [currentData]);
-
-  const points = useMemo(() => {
-    if (pointShown) {
-      return [25];
-    }
-    return [0];
-  }, [pointShown]);
 
   return (
     <>
@@ -116,46 +106,14 @@ const Task3 = () => {
         </Flex>
 
         <Flex flexFlow="row wrap" justify="center" w="100%" maxW="1500px" mt={3}>
-          <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" label={{ value: 'Altitude (km)', position: 'bottom', offset: -10 }} />
-              <YAxis type="number" dataKey="y" name="Pressure" domain={[0, 1200]} />
-              <ZAxis type="number" range={points} />
-              <Scatter name="Pressure" data={data.p} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
-            </ScatterChart>
-          </ResponsiveContainer>
 
-          <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Temperature" unit="°C" domain={[-130, 30]} allowDataOverflow />
-              <ZAxis type="number" range={points} />
-              <Scatter name="Dew Point" data={data.tdew} fill="#0096FF" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
-              <Scatter name="Temperature" data={data.t} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
-            </ScatterChart>
-          </ResponsiveContainer>
+          <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={data.p} showPoints={pointShown} />
 
-          <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Lapse Rate" unit="K/km" domain={[0, 12]} />
-              <ZAxis type="number" range={points} />
-              <Scatter name="Lapse Rate" data={data.l} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
-            </ScatterChart>
-          </ResponsiveContainer>
+          <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={data.t} data2={data.tdew} showPoints={pointShown} />
 
-          <ResponsiveContainer minWidth="300px" width="33%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Temperature" unit="°C" domain={[0, 120]} />
-              <ZAxis type="number" range={points} />
-              <Scatter name="Boiling Point" data={data.tboil} fill="#711368" line={{ strokeWidth: 2 }} isAnimationActive={animShown} />
-            </ScatterChart>
-          </ResponsiveContainer>
+          <GraphKit title="Variation of lapse rate with altitude" yLabel="Lapse Rate (K/km)" domain={[0, 12]} data={data.l} showPoints={pointShown} />
+
+          <GraphKit title="Variation of boiling point with altitude" yLabel="Temperature (°C)" domain={[0, 120]} data={data.tboil} showPoints={pointShown} />
         </Flex>
 
       </Flex>
