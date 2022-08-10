@@ -1,5 +1,5 @@
 import {
-  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Link,
 } from '@chakra-ui/react';
 import type { UseDisclosureReturn } from '@chakra-ui/react';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
@@ -11,6 +11,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 
 import 'katex/dist/katex.min.css';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 interface Props {
   disclosure: UseDisclosureReturn;
@@ -27,6 +28,10 @@ const newTheme = {
         {String(children).replace(/\n$/, '')}
       </SyntaxHighlighter>
     );
+  },
+  a: (props) => {
+    const { children, ...rest } = props;
+    return <Link {...rest} isExternal>{children} <ExternalLinkIcon mt="-5px" /></Link>;
   },
 };
 

@@ -5,31 +5,17 @@ import { useMemo, useState } from 'react';
 import { rkScheme, eulerScheme } from 'wasm';
 import GraphKit from 'components/Shared/GraphKit';
 import SliderKit from 'components/Shared/SliderKit';
+import { type PointList } from 'types';
 import Task3Modal from './Modal';
 
 // const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
 const tolerance = 0.025;
 interface Data {
-  p: {
-    x: number;
-    y: number;
-  }[];
-  t: {
-    x: number;
-    y: number;
-  }[];
-  l: {
-    x: number;
-    y: number;
-  }[];
-  tdew: {
-    x: number;
-    y: number;
-  }[];
-  tboil: {
-    x: number;
-    y: number;
-  }[];
+  p: PointList;
+  t: PointList;
+  l: PointList;
+  tdew: PointList;
+  tboil: PointList;
 }
 
 const Task3 = () => {

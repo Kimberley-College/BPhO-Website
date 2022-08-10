@@ -3,13 +3,14 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import {
   ResponsiveContainer, ScatterChart, CartesianGrid, XAxis, YAxis, ZAxis, Scatter, Legend,
 } from 'recharts';
+import { type PointList } from 'types';
 
 interface Props {
   title: string;
   yLabel: string;
   domain: [number, number];
-  data: { x: number, y: number }[];
-  data2?: { x: number, y: number }[];
+  data: PointList;
+  data2?: PointList;
   showPoints: boolean;
   legend?: boolean;
 }
