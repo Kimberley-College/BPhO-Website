@@ -9,9 +9,17 @@ interface Props {
 }
 
 const markdown = `
-[*A Standard Atmosphere* [A French]](https://www.bpho.org.uk/bpho/computational-challenge/BPhO%20CompPhys%20Challenge%202022%20v2.pdf#page=14) details how
-pressure is given by $ p(h) = p_0 \\left ( 1 - \\frac{L(h - h_0)}{T_0} \\right)^{\\frac{Mg}{LR}} $
-, or when lapse rate is zero, $ p(h) = p_0 e^{- \\frac{Mg}{RT} (h - h_0)} $.
+[*A Standard Atmosphere* [A French]](https://www.bpho.org.uk/bpho/computational-challenge/BPhO%20CompPhys%20Challenge%202022%20v2.pdf#page=14) 
+derives how under the assumption of constant lapse rate, pressure varies with altitude according to:
+
+
+$$
+p(h) = 
+\\begin{cases}
+p_0 \\left ( 1 - \\frac{L(h - h_0)}{T_0} \\right)^{\\frac{Mg}{LR}}, & L \\ne 0 \\\\
+p_0 e^{- \\frac{Mg}{RT} (h - h_0)}, & L = 0
+\\end{cases}
+$$
 
 
 In TypeScript, this is calculated as follows:
@@ -39,7 +47,7 @@ without sacrificing visual quality in any capacity.
 const Task2Modal = ({ disclosure }: Props) => (
   <ModalKit
     disclosure={disclosure}
-    title="Task 2 Explanation"
+    title="Task 2"
     markdown={markdown}
   />
 );

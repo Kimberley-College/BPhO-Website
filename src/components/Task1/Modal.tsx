@@ -13,7 +13,7 @@ Task 1 is literally just to plot a graph of Temperature against Altitude based o
 lapse rate, which is equal to $L = - \\frac{dT}{dh}$.
 
 
-The data, after calculating the temperatures, is:
+The data, after calculating the temperatures from the data given in [*A Standard Atmosphere* [A French]](https://www.bpho.org.uk/bpho/computational-challenge/BPhO%20CompPhys%20Challenge%202022%20v2.pdf#page=4), is:
 | Altitude (km)  | Temperature (K)   |
 |----------------|-------------------|
 | 0              | 228               |
@@ -29,7 +29,7 @@ The data, after calculating the temperatures, is:
 const Task1Modal = ({ disclosure }: Props) => (
   <ModalKit
     disclosure={disclosure}
-    title="Task 1 Explanation"
+    title="Task 1"
     markdown={markdown}
   />
 );
