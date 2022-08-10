@@ -19,7 +19,9 @@ jobs:
     - name: Use wasm cache
       uses: actions/cache@v3
       with:
-        path: './bpho-wasm/build'
+        path: |
+          './bpho-wasm/build'
+          './bpho-wasm/target'
         key: ${{ runner.os }}-modules-${{ hashFiles('./bpho-wasm/src/lib.rs') }}
 
     - name: Build wasm
@@ -60,11 +62,6 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo and submodules
-        uses: actions/checkout@v3
-        with:
-          submodules: recursive
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v1.0.2
         with:
