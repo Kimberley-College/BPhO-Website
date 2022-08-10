@@ -47,7 +47,6 @@ const Task3 = () => {
   }, [switchState, humidity]);
 
   const data: Data = useMemo(() => {
-    const now = performance.now();
     const vals: Data = {
       p: [], t: [], l: [], tdew: [], tboil: [],
     };
@@ -57,7 +56,6 @@ const Task3 = () => {
       vals[key] = currentData.slice(idx, idx + len).map((value, index) => ({ x: value, y: currentData[idx + index + len] }));
       idx += 2 * len + 1;
     });
-    console.log(performance.now() - now);
     return vals;
   }, [currentData]);
 
