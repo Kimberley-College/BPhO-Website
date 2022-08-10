@@ -25,7 +25,7 @@ jobs:
         path: |
           './bpho-wasm/build'
           './bpho-wasm/target'
-        key: ${{ runner.os }}-modules-${{ hashFiles('./bpho-wasm/src/lib.rs') }}
+        key: ${{ runner.os }}-modules-${{ hashFiles('./bpho-wasm/src/**') }}
 
     - name: Build wasm
       working-directory: ./bpho-wasm
