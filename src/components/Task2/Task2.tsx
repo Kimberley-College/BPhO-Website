@@ -5,9 +5,10 @@ import { useMemo, useState } from 'react';
 import simplify from 'simplify-js';
 import GraphKit from 'components/Shared/GraphKit';
 import SliderKit from 'components/Shared/SliderKit';
+import { PointList } from 'types';
 import Task2Modal from './Modal';
 
-const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
+const xValues = new Array(321).fill(0).map((_, i) => i * 0.1);
 
 const pressure = (p0: number, t0: number, l: number, h: number) => {
   if (l === 0) {
@@ -22,7 +23,16 @@ const Task2 = () => {
   const [l, lSet] = useState<number>(0);
   const modalDisc = useDisclosure();
 
-  const currentData: { x: number, y: number }[] = useMemo(() => simplify(xValues.map((value) => ({ x: value, y: pressure(p, t, l, value) })), 0.01), [p, t, l]);
+  const [p2, p3] = useMemo(() => {
+    const p2Calc = pressure(p, t, 6.5, 11);
+    const p3Calc = pressure(p2Calc, t, 0, 20);
+    return [p2Calc, p3Calc];
+  }, [p, t]);
+
+  const variable: PointList = useMemo(() => simplify(xValues.map((value) => ({ x: value, y: pressure(p, t, l, value) })), 0.01), [p, t, l]);
+  const troposphere: PointList = useMemo(() => simplify(xValues.slice(0, 111).map((value) => ({ x: value, y: pressure(p, t, 6.5, value) })), 0.01), [p, t]);
+  const tropopause: PointList = useMemo(() => simplify(xValues.slice(110, 201).map((value) => ({ x: value, y: pressure(p2, t, 0, value - 11) })), 0.01), [p2, t]);
+  const stratosphere: PointList = useMemo(() => simplify(xValues.slice(200, 321).map((value) => ({ x: value, y: pressure(p3, t, -1, value - 31) })), 0.01), [p3, t]);
 
   return (
     <>
@@ -38,7 +48,18 @@ const Task2 = () => {
 
         <SliderKit title="Temperature (K)" unit="K" domain={[200, 300]} step={1} numTicks={11} tickFn={(i) => i * 10 + 200} value={t} onChange={tSet} labelLeft={-3} decimalPoints={0} />
 
-        <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={currentData} showPoints={false} />
+        <GraphKit
+          title="Variation of pressure with altitude"
+          yLabel="Pressure (KPa)"
+          domain={[0, 1200]}
+          data={[
+            { name: 'Variable Plot', points: variable },
+            { name: 'Troposphere', points: troposphere, colour: '#008080' },
+            { name: 'Tropopause', points: tropopause, colour: '#32cd32' },
+            { name: 'Stratosphere', points: stratosphere, colour: '#ff7f00' }]}
+          showPoints={false}
+          legend
+        />
       </Flex>
 
       <Task2Modal disclosure={modalDisc} />

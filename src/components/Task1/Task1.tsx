@@ -1,9 +1,7 @@
 import {
-  Heading, Flex, Box, useDisclosure, Button,
+  Heading, Flex, useDisclosure, Button,
 } from '@chakra-ui/react';
-import {
-  Scatter, ScatterChart, XAxis, YAxis, CartesianGrid, ZAxis, ResponsiveContainer,
-} from 'recharts';
+import GraphKit from 'components/Shared/GraphKit';
 import Task1Modal from './Modal';
 
 const data = [
@@ -25,17 +23,7 @@ const Task1 = () => {
         <Heading as="h2" size="lg" fontWeight="bold">Task 1</Heading>
         <Button alignSelf={[null, 'flex-end']} pos="relative" top={[0, -9]} onClick={modalDisc.onOpen}>Explanation</Button>
 
-        <Box maxW="500px" width="100%">
-          <ResponsiveContainer minWidth="300px" width="100%" aspect={1}>
-            <ScatterChart>
-              <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Altitude" unit="km" />
-              <YAxis type="number" dataKey="y" name="Temperature" unit="K" domain={[200, 300]} />
-              <ZAxis type="number" range={[20]} />
-              <Scatter name="TvA" data={data} fill="#711368" line />
-            </ScatterChart>
-          </ResponsiveContainer>
-        </Box>
+        <GraphKit title="Temperature variation with altitude" yLabel="Temperature (K)" domain={[200, 300]} data={[{ name: 'Temperature', points: data }]} showPoints />
       </Flex>
       <Task1Modal disclosure={modalDisc} />
     </>

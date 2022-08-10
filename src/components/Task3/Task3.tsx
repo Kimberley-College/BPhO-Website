@@ -66,13 +66,13 @@ const Task3 = () => {
 
         <Flex flexFlow="row wrap" justify="center" w="100%" maxW="1500px" mt={3}>
 
-          <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={data.p} showPoints={pointShown} />
+          <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={[{ name: 'Pressure', points: data.p }]} showPoints={pointShown} />
 
-          <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={data.t} data2={data.tdew} showPoints={pointShown} legend />
+          <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={[{ name: 'Temperature', points: data.t }, { name: 'Dew Point', points: data.tdew, colour: '#0096FF' }]} showPoints={pointShown} legend />
 
-          <GraphKit title="Variation of lapse rate with altitude" yLabel="Lapse Rate (K/km)" domain={[0, 12]} data={data.l} showPoints={pointShown} />
+          <GraphKit title="Variation of lapse rate with altitude" yLabel="Lapse Rate (K/km)" domain={[0, 12]} data={[{ name: 'Lapse Rate', points: data.l }]} showPoints={pointShown} />
 
-          <GraphKit title="Variation of boiling point with altitude" yLabel="Temperature (°C)" domain={[0, 120]} data={data.tboil} showPoints={pointShown} />
+          <GraphKit title="Variation of boiling point with altitude" yLabel="Temperature (°C)" domain={[0, 120]} data={[{ name: 'Boiling Point', points: data.tboil }]} showPoints={pointShown} />
         </Flex>
 
       </Flex>
