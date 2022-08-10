@@ -18,9 +18,9 @@ interface Props {
 const GraphKit = ({
   title, yLabel, domain, data, data2, showPoints, legend = false,
 }: Props) => (
-  <Flex flexFlow="column nowrap" align="center" mt={3} maxW="500px" width="70%" pos="relative">
+  <Flex flexFlow="column nowrap" align="center" mt={3} maxW="500px" width={['80%', null, '70%']} pos="relative">
     <Heading textAlign="center" as="h4" size="md" fontWeight="normal" ml={12}>{title}</Heading>
-    <ResponsiveContainer minWidth="250px" width="90%" aspect={1}>
+    <ResponsiveContainer minWidth="300px" width="90%" aspect={1}>
       <ScatterChart>
         <CartesianGrid />
         {/* @ts-expect-error They don't know how to TypeScript */}

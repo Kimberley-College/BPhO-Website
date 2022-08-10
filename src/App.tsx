@@ -21,7 +21,7 @@ function App() {
       </Flex>
 
       <Flex flexFlow="column nowrap" align="center">
-        <Box minW="300px" w="80%" mt={5} borderRadius="5px" border="1px solid gray">
+        <Box minW="300px" w={['95%', '90%', '80%']} mt={5} borderRadius="5px" border="1px solid gray">
           <Tabs>
             <TabList>
               <Tab>Task 1</Tab>
