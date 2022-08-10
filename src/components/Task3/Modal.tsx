@@ -9,14 +9,14 @@ interface Props {
 }
 
 const markdown = `
-Task 3 requires the solving a coupled pair of first order differential equations.
+Task 3 requires the solving the following coupled first order differential equations:
 
 
-A simple implementation of Euler's method (as requested) for the task is shown here, though we ended up going with a 
-different way to encode the data more nicely for use in TypeScript/JavaScript, 
-incorporate the dew point and boiling point temperatures, and achieve better performance (using Runge Kutta 4th Order).
-This, however, is still a fully working rust-wasm implementation, and using it in the website
-is a simple case of a map from the returned Float32Array to the form required by whatever graphing API you want (we used 'recharts').
+$equations$
+
+
+It is suggested to use [*Euler's* method](https://en.wikipedia.org/wiki/Euler_method) in [*A Standard Atmosphere* [A French]](https://www.bpho.org.uk/bpho/computational-challenge/BPhO%20CompPhys%20Challenge%202022%20v2.pdf#page=31)
+, with a step size of $\\Delta h = 0.01$. The code below shows a simple (at the cost of efficiency!) rust implementation of this method, which can be compiled to WebAssembly and return a Float32Array when called in TypeScript.
 \`\`\`rust
 #[wasm_bindgen(js_name = eulerScheme)]
 pub fn euler_scheme(u: f32, p0: f32, t0: f32) -> Box<[f32]> {
@@ -29,31 +29,9 @@ pub fn euler_scheme(u: f32, p0: f32, t0: f32) -> Box<[f32]> {
     soln.concat().into_boxed_slice()
 }
 \`\`\`
-Some naive code in TypeScript to format this data appropriately for recharts could be as follows:
-\`\`\`typescript
-interface Data {
-  p: Array<{ x: number; y: number }>;
-  t: Array<{ x: number; y: number }>;
-  l: Array<{ x: number; y: number }>;
-}
-
-const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
-const currentData: Float32Array = useMemo(() => {
-  // Memoization means this only recalculates when a change is detected in 'u'
-  eulerScheme(u, 1013.15, 15.0) // Value of 'u' is controlled by the slider
-}, [u]);
-const data: Data = useMemo(() => {
-  // Similarly to above, this only recalculates when a change is detected
-  const vals: Data = { p: [], t: [], l: [] };
-  // We are only taking every 10th point, because plotting 1101 points
-  // over 111 points has no visible benefit, but is significantly more 
-  // impactful on time and memory usage
-  xValues.forEach((value, index) => vals.p.push({ x: value, y: currentData[30 * index] }));
-  xValues.forEach((value, index) => vals.t.push({ x: value, y: currentData[30 * index + 1] }));
-  xValues.forEach((value, index) => vals.l.push({ x: value, y: currentData[30 * index + 2] }));
-  return vals;
-}, [currentData]);
-\`\`\`
+However, in our WebAssembly crate, we also implemented the [*Runge-Kutta 4th Order* method](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods), in order to
+massively improve space efficiency and give a performance boost. Additionally, we incorporated the [*Ramer-Douglas-Peucker* algorithm](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm) 
+to prune points for buttery-smooth responsiveness when adjusting the humidity slider. 
 `;
 
 const Task3Modal = ({ disclosure }: Props) => (
