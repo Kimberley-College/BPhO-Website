@@ -2,14 +2,13 @@ import {
   Heading, Select, Flex, useDisclosure, Button, Checkbox,
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { rk4, euler } from 'wasm';
-import simplify from 'simplify-js';
+import { rkScheme, eulerScheme } from 'wasm';
 import GraphKit from 'components/Shared/GraphKit';
 import SliderKit from 'components/Shared/SliderKit';
 import Task3Modal from './Modal';
 
-const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
-const tolerance = 0.02;
+// const xValues = new Array(111).fill(0).map((_, i) => i * 0.1);
+const tolerance = 0.025;
 interface Data {
   p: {
     x: number;
@@ -40,22 +39,26 @@ const Task3 = () => {
   const modalDisc = useDisclosure();
   const [pointShown, setPointShown] = useState<boolean>(false);
 
-  const currentData: Float32Array = useMemo(() => {
+  const currentData = useMemo(() => {
     if (switchState === 'rk4') {
-      return rk4(humidity);
+      return Array.from(rkScheme(humidity, tolerance));
     }
-    return euler(humidity);
+    return Array.from(eulerScheme(humidity, tolerance));
   }, [switchState, humidity]);
 
   const data: Data = useMemo(() => {
-    const p = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index] })), tolerance); // Using the Ramer–Douglas–Peucker algorithm to simplify amount of points required
-    const t = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 111] })), tolerance);
-    const l = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 222] })), tolerance);
-    const tdew = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 333] })), tolerance);
-    const tboil = simplify(xValues.map((value, index) => ({ x: value, y: currentData[index + 444] })), tolerance);
-    return {
-      p, t, l, tdew, tboil,
+    const now = performance.now();
+    const vals: Data = {
+      p: [], t: [], l: [], tdew: [], tboil: [],
     };
+    let idx = 1;
+    Object.keys(vals).forEach((key) => {
+      const len = currentData[idx - 1];
+      vals[key] = currentData.slice(idx, idx + len).map((value, index) => ({ x: value, y: currentData[idx + index + len] }));
+      idx += 2 * len + 1;
+    });
+    console.log(performance.now() - now);
+    return vals;
   }, [currentData]);
 
   return (
