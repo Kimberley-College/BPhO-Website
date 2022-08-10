@@ -1,6 +1,9 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -48,10 +51,13 @@ jobs:
     - name: Build the code
       run: pnpm run build
 
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v1.0.2
+      with:
+        path: ./build
+
   deploy:
-    needs: build
-    if: github.ref == 'refs/heads/master'
-    
+    needs: build    
     permissions:
       pages: write
       id-token: write
@@ -62,11 +68,6 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1.0.2
-        with:
-          path: ./build
-      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
