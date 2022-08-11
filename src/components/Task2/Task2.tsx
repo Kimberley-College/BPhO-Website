@@ -25,14 +25,14 @@ const Task2 = () => {
 
   const [p2, p3] = useMemo(() => {
     const p2Calc = pressure(p, t, 6.5, 11);
-    const p3Calc = pressure(p2Calc, t, 0, 20);
+    const p3Calc = pressure(p2Calc, t, 0, 9);
     return [p2Calc, p3Calc];
   }, [p, t]);
 
   const variable: PointList = useMemo(() => simplify(xValues.map((value) => ({ x: value, y: pressure(p, t, l, value) })), 0.01), [p, t, l]);
   const troposphere: PointList = useMemo(() => simplify(xValues.slice(0, 111).map((value) => ({ x: value, y: pressure(p, t, 6.5, value) })), 0.01), [p, t]);
   const tropopause: PointList = useMemo(() => simplify(xValues.slice(110, 201).map((value) => ({ x: value, y: pressure(p2, t, 0, value - 11) })), 0.01), [p2, t]);
-  const stratosphere: PointList = useMemo(() => simplify(xValues.slice(200, 321).map((value) => ({ x: value, y: pressure(p3, t, -1, value - 31) })), 0.01), [p3, t]);
+  const stratosphere: PointList = useMemo(() => simplify(xValues.slice(200, 321).map((value) => ({ x: value, y: pressure(p3, t, -1, value - 20) })), 0.01), [p3, t]);
 
   return (
     <>
