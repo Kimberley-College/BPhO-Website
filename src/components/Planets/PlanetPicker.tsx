@@ -3,9 +3,9 @@ import {
 } from '@chakra-ui/react';
 
 const planets = [
-  { name: 'Earth', img: '/planets/earth.png' },
-  { name: 'Venus', img: '/planets/earth.png' },
-  { name: 'Mars', img: '/planets/earth.png' },
+  { name: 'Earth', img: '/planets/earth.jpg' },
+  { name: 'Venus', img: '/planets/venus.jpeg' },
+  { name: 'Mars', img: '/planets/mars.jpeg' },
 ];
 
 interface Props {
