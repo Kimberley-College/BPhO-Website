@@ -1,7 +1,6 @@
 import {
   Flex, Heading, Image, Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 
 const planets = [
   { name: 'Earth', img: '/planets/earth.png' },
@@ -10,8 +9,12 @@ const planets = [
   { name: 'Mars', img: '/planets/earth.png' },
 ];
 
-const PlanetPicker = () => {
-  const [activePlanets, setActivePlanets] = useState<string[]>([]);
+interface Props {
+  activePlanets: string[];
+  setActivePlanets: (planets: string[]) => void;
+}
+
+const PlanetPicker = ({ activePlanets, setActivePlanets }: Props) => {
   const togglePlanet = (planet: string) => (activePlanets.includes(planet) ? setActivePlanets(activePlanets.filter((p) => p !== planet)) : setActivePlanets([...activePlanets, planet]));
 
   return (
