@@ -17,7 +17,7 @@ const PlanetPicker = ({ activePlanets, setActivePlanets }: Props) => {
   const togglePlanet = (planet: string) => (activePlanets.includes(planet) ? setActivePlanets(activePlanets.filter((p) => p !== planet)) : setActivePlanets([...activePlanets, planet]));
 
   return (
-    <Flex flexFlow="column nowrap" align="center" border="1px solid" borderRadius="5px" borderColor="brand.kimberley" p={3}>
+    <Flex flexFlow="column nowrap" align="center" border="1px solid" borderRadius="5px" borderColor="brand.kimberley" p={3} mt={3}>
       <Heading as="h3" size="sm" fontWeight="bold" mb={2}>Planet Selector</Heading>
       <Flex flexFlow="row nowrap">
         {planets.map((planet) => (

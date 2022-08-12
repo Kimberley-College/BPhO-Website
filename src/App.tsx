@@ -16,7 +16,7 @@ function App() {
 
         <Image alignSelf="flex-start" src="/kimberley_logo.png" pos="absolute" top={5} height={110} width={110} alt="Logo" />
 
-        <Flex pos="absolute" right={50} top={50} gap={3} maxW="calc(100vw - 150px)" flexFlow="row wrap" justify="flex-end">
+        <Flex pos="absolute" right={50} top={50} gap={3} maxW="calc(100vw - 175px)" flexFlow="row wrap" justify="flex-end">
           <Link fontSize="18" fontWeight="bold" isExternal href="/Report.pdf">Technical Report <ExternalLinkIcon mt="-5px" /></Link>
           <Link fontSize="18" fontWeight="bold" isExternal href="https://github.com/KimboBPhO/Website">GitHub <ExternalLinkIcon mt="-5px" /></Link>
         </Flex>
