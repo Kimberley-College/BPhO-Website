@@ -29,7 +29,6 @@ const Planets = () => {
           <GraphKit
             title="Temperature variation with altitude"
             yLabel="Temperature (K)"
-            domain={[200, 300]}
             data={activeTData}
             showPoints={pointShown}
             legend
