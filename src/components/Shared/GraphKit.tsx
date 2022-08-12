@@ -8,7 +8,7 @@ import { type PointList } from 'types';
 interface Props {
   title: string;
   yLabel: string;
-  domain: [number, number];
+  domain?: [number, number];
   data: { name: string, points: PointList, colour?: string }[];
   showPoints: boolean;
   legend?: boolean;

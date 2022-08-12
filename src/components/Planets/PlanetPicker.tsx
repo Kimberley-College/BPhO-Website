@@ -4,7 +4,6 @@ import {
 
 const planets = [
   { name: 'Earth', img: '/planets/earth.png' },
-  { name: 'Mercury', img: '/planets/earth.png' },
   { name: 'Venus', img: '/planets/earth.png' },
   { name: 'Mars', img: '/planets/earth.png' },
 ];
@@ -22,7 +21,7 @@ const PlanetPicker = ({ activePlanets, setActivePlanets }: Props) => {
       <Heading as="h3" size="sm" fontWeight="bold" mb={2}>Planet Selector</Heading>
       <Flex flexFlow="row nowrap">
         {planets.map((planet) => (
-          <Flex flexFlow="column nowrap" align="center" p={2} mx={2} borderRadius="5px" bgColor={activePlanets.includes(planet.name) ? 'green.400' : 'gray.300'} onClick={() => togglePlanet(planet.name)}>
+          <Flex _hover={{ cursor: 'pointer' }} flexFlow="column nowrap" align="center" p={2} mx={2} borderRadius="5px" bgColor={activePlanets.includes(planet.name) ? 'green.400' : 'gray.300'} onClick={() => togglePlanet(planet.name)}>
             <Image src={planet.img} alt={planet.name} w="50px" />
             <Text>{planet.name}</Text>
           </Flex>

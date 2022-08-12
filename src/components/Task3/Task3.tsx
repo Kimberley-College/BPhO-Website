@@ -49,10 +49,10 @@ const Task3 = () => {
     <>
       <Flex flexFlow="column nowrap" align="center">
         <Heading as="h2" size="lg" fontWeight="bold">Task 3</Heading>
-        <Checkbox alignSelf={[null, 'flex-start']} pos="relative" top={[0, 0]} isChecked={pointShown} onChange={(e) => setPointShown(e.target.checked)}>
+        <Checkbox alignSelf={[null, 'flex-start']} pos="relative" top={[0, '-30px']} isChecked={pointShown} onChange={(e) => setPointShown(e.target.checked)}>
           Show Points?
         </Checkbox>
-        <Button alignSelf={[null, 'flex-end']} pos="relative" top={[0, -9]} onClick={modalDisc.onOpen}>Explanation</Button>
+        <Button alignSelf={[null, 'flex-end']} pos="relative" top={[0, '-60px']} onClick={modalDisc.onOpen}>Explanation</Button>
 
         <Flex flexFlow="column nowrap" align="center" w="100%">
           <Heading as="h3" size="md" fontWeight="bold">Calculation Method</Heading>
@@ -66,7 +66,7 @@ const Task3 = () => {
 
         <Flex flexFlow="row wrap" justify="center" w="100%" maxW="1500px" mt={3}>
 
-          <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (KPa)" domain={[0, 1200]} data={[{ name: 'Pressure', points: data.p }]} showPoints={pointShown} />
+          <GraphKit title="Variation of pressure with altitude" yLabel="Pressure (mbar)" domain={[0, 1200]} data={[{ name: 'Pressure', points: data.p }]} showPoints={pointShown} />
 
           <GraphKit title="Variation of temperature with altitude" yLabel="Temperature (°C)" domain={[-130, 30]} data={[{ name: 'Temperature', points: data.t }, { name: 'Dew Point', points: data.tdew, colour: '#0096FF' }]} showPoints={pointShown} legend />
 
