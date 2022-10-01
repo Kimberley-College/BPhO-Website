@@ -18,7 +18,7 @@ function App() {
 
         <Flex pos="absolute" right={50} top={50} gap={3} maxW="calc(100vw - 175px)" flexFlow="row wrap" justify="flex-end">
           <Link fontSize="18" fontWeight="bold" isExternal href="/Report.pdf">Technical Report <ExternalLinkIcon mt="-5px" /></Link>
-          <Link fontSize="18" fontWeight="bold" isExternal href="https://github.com/KimboBPhO/Website">GitHub <ExternalLinkIcon mt="-5px" /></Link>
+          <Link fontSize="18" fontWeight="bold" isExternal href="https://github.com/Kimberley-College/BPhO-Website">GitHub <ExternalLinkIcon mt="-5px" /></Link>
         </Flex>
 
         <Heading color="brand.kimberley" as="h1" size="3xl" fontWeight="bold">Kimbo BPhO</Heading>
